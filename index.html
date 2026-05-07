@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1a3a5c">
+<title>Fiche Entrée Ouvrier Chantier</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Barlow+Condensed:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+@page { size: A4 portrait; margin: 6mm; }
+
+:root {
+  --primary: #1a3a5c;
+  --accent:  #c0392b;
+  --g100: #f4f5f7;
+  --g200: #e2e5ea;
+  --g400: #8a9099;
+  --g700: #343c47;
+  --border: #c5cad3;
+  --r: 4px;
+}
+
+/* ════════════════════════════════
+   BASE
+════════════════════════════════ */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body {
+  font-family: 'Barlow Condensed', Arial Narrow, Arial, sans-serif;
+  font-size: 10.5px;
+  color: var(--g700);
+  background: #d8dce2;
+  min-height: 100vh;
+  min-height: 100dvh;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ════════════════════════════════
+   LAYOUT DESKTOP (> 768px)
+════════════════════════════════ */
+@media (min-width: 769px) {
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 12px;
+  }
+  .page {
+    width: 794px;
+    min-height: 1110px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 6px 32px rgba(0,0,0,0.18);
+  }
+}
+
+/* ════════════════════════════════
+   LAYOUT TABLETTE (481–768px)
+════════════════════════════════ */
+@media (min-width: 481px) and (max-width: 768px) {
+  body { padding: 8px; display: block; }
+  .page {
+    width: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.14);
+  }
+  .cols2, .cols3 { grid-template-columns: 1fr 1fr !important; }
+  .g6 { grid-template-columns: repeat(3, 1fr) !important; }
+  .g2 { grid-template-columns: 1fr 1fr !important; }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  input[type="tel"] { height: 36px; font-size: 14px; padding: 6px 10px; }
+  .sal-wrap { height: 36px; }
+  .opt { padding: 6px 10px; }
+  .opt-text .fr { font-size: 12px; }
+  .opt-text .ar { font-size: 11px; }
+  canvas { height: 90px; }
+  .hd-title h2 { font-size: 14px; }
+  .hd-title h3 { font-size: 12px; }
+  .sec-title { font-size: 10px; padding: 4px 10px; }
+  .field label { font-size: 10px; }
+  .footer { padding: 8px 10px 10px; }
+  .btn { height: 38px; font-size: 13px; }
+}
+
+/* ════════════════════════════════
+   LAYOUT MOBILE (≤ 480px)
+════════════════════════════════ */
+@media (max-width: 480px) {
+  body { padding: 0; background: #f0f2f5; display: block; }
+
+  .page {
+    width: 100%;
+    min-height: 100dvh;
+    background: #f0f2f5;
+    display: flex;
+    flex-direction: column;
+    box-shadow: none;
+  }
+
+  /* Header mobile */
+  .header {
+    padding: 10px 12px 8px;
+    gap: 8px;
+    border-radius: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo-box { width: 38px; height: 38px; font-size: 7px; }
+  .hd-title h2 { font-size: 11px; }
+  .hd-title h3 { font-size: 10px; margin-top: 1px; }
+  .hd-meta { font-size: 9px; }
+  .hd-meta strong { font-size: 10px; }
+
+  /* Body mobile : sections en cartes blanches */
+  .form-body {
+    padding: 10px;
+    gap: 8px;
+    background: #f0f2f5;
+  }
+
+  /* Toutes les grilles passent en 1 colonne */
+  .cols2, .cols3,
+  .cols2 > div:last-child { grid-template-columns: 1fr !important; }
+
+  /* CNSS + Salaire restent côte à côte sur mobile */
+  .side-col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  .g2, .g3, .g4 { grid-template-columns: 1fr 1fr !important; }
+  .g6 { grid-template-columns: 1fr 1fr 1fr !important; }
+
+  /* Inputs plus grands pour les doigts */
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  input[type="tel"] {
+    height: 42px;
+    font-size: 15px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .sal-wrap { height: 42px; border-radius: 8px; }
+  .sal-wrap input { font-size: 15px; }
+  .sal-unit { font-size: 11px; padding: 0 12px; }
+
+  .opt { padding: 8px 10px; border-radius: 8px; }
+  .opt input[type="radio"],
+  .opt input[type="checkbox"] { width: 16px; height: 16px; }
+  .opt-text .fr { font-size: 12px; }
+  .opt-text .ar { font-size: 11px; }
+
+  .sec { border-radius: 8px; }
+  .sec-body { padding: 8px 10px; }
+  .sec-title { font-size: 10px; padding: 5px 10px; }
+
+  .field label { font-size: 10px; }
+  .field { gap: 4px; }
+
+  canvas { height: 100px; touch-action: none; }
+
+  .sig-row { grid-template-columns: 1fr; gap: 8px; }
+
+  /* Footer sticky mobile */
+  .footer {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    border-top: 1px solid var(--g200);
+    padding: 10px 12px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    z-index: 100;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.1);
+  }
+  .btn { height: 44px; font-size: 14px; border-radius: 8px; }
+}
+
+/* ════════════════════════════════
+   COMPOSANTS (communs)
+════════════════════════════════ */
+.header {
+  background: var(--primary);
+  color: white;
+  padding: 7px 10px 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 3px solid var(--accent);
+  flex-shrink: 0;
+}
+
+.logo-box {
+  width: 48px; height: 48px;
+  background: white; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px; font-weight: 700; color: var(--primary);
+  text-align: center; line-height: 1.2; flex-shrink: 0;
+}
+
+.hd-title { flex: 1; }
+.hd-title h2 { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; line-height: 1.2; }
+.hd-title h3 { font-family: 'Cairo', sans-serif; font-size: 11.5px; font-weight: 600; opacity: 0.85; direction: rtl; margin-top: 2px; }
+.hd-meta { text-align: right; font-size: 9.5px; opacity: 0.8; line-height: 1.7; }
+.hd-meta strong { font-size: 11px; opacity: 1; }
+
+.form-body {
+  flex: 1;
+  padding: 6px 8px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.cols2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.cols3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+
+.sec { border: 1px solid var(--g200); border-radius: var(--r); overflow: hidden; background: white; }
+
+.sec-title {
+  background: var(--primary); color: white;
+  padding: 3px 8px;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 0.5px; text-transform: uppercase;
+  display: flex; justify-content: space-between; align-items: center;
+  line-height: 1.4;
+}
+.sec-title .ar {
+  font-family: 'Cairo', sans-serif;
+  font-size: 9.5px; font-weight: 600;
+  text-transform: none; letter-spacing: 0;
+  opacity: 0.9; direction: rtl;
+}
+
+.sec-body { padding: 5px 7px; background: white; }
+
+.field { display: flex; flex-direction: column; gap: 2px; }
+.field label {
+  font-size: 8.5px; color: var(--g400);
+  font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.3px; line-height: 1.2;
+}
+.field label .ar {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 500; text-transform: none;
+  letter-spacing: 0; font-size: 8.5px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="tel"] {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 4px 6px;
+  font-family: 'Barlow Condensed', Arial, sans-serif;
+  font-size: 10.5px;
+  color: var(--g700);
+  background: var(--g100);
+  outline: none;
+  height: 24px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+input:focus {
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 2px rgba(26,58,92,0.12);
+}
+input:invalid.touched { border-color: var(--accent); }
+
+.sal-wrap {
+  display: flex; border: 1px solid var(--border);
+  border-radius: var(--r); overflow: hidden;
+  height: 24px; background: var(--g100);
+}
+.sal-wrap:focus-within { border-color: var(--primary); background: white; box-shadow: 0 0 0 2px rgba(26,58,92,0.12); }
+.sal-wrap input { border: none !important; background: transparent !important; box-shadow: none !important; flex: 1; height: 100%; padding: 0 6px; }
+.sal-unit { padding: 0 8px; font-size: 9px; font-weight: 700; color: white; background: var(--primary); display: flex; align-items: center; flex-shrink: 0; }
+
+.opt-grid { display: grid; gap: 4px; }
+.g2 { grid-template-columns: 1fr 1fr; }
+.g3 { grid-template-columns: 1fr 1fr 1fr; }
+.g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.g6 { grid-template-columns: repeat(6, 1fr); }
+
+.opt {
+  display: flex; align-items: center; gap: 5px;
+  padding: 3px 6px;
+  border: 1px solid var(--border); border-radius: var(--r);
+  cursor: pointer;
+  transition: border-color .12s, background .12s;
+  user-select: none; -webkit-user-select: none;
+}
+.opt:hover { border-color: var(--primary); background: #e8f0f8; }
+.opt input[type="radio"],
+.opt input[type="checkbox"] {
+  width: 12px; height: 12px;
+  accent-color: var(--primary);
+  flex-shrink: 0; cursor: pointer;
+}
+.opt-text { display: flex; flex-direction: column; line-height: 1.25; }
+.opt-text .fr { font-size: 9.5px; }
+.opt-text .ar { font-family: 'Cairo', sans-serif; font-size: 8.5px; color: var(--g400); direction: rtl; }
+
+.sig-row { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.sig-box { border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+.sig-hd {
+  background: var(--g100); border-bottom: 1px solid var(--border);
+  padding: 3px 7px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.sig-lbl { font-size: 9px; font-weight: 700; line-height: 1.3; }
+.sig-lbl .ar { font-family: 'Cairo', sans-serif; font-size: 8.5px; color: var(--g400); display: block; direction: rtl; font-weight: 500; }
+.sig-clr {
+  background: none; border: 1px solid var(--border);
+  border-radius: 3px; padding: 1px 6px;
+  font-size: 8.5px; color: var(--g400); cursor: pointer;
+}
+.sig-clr:hover { border-color: var(--accent); color: var(--accent); }
+
+canvas {
+  display: block; width: 100%; height: 70px;
+  max-height: 70px;
+  background: white; cursor: crosshair; touch-action: none;
+}
+
+.footer {
+  display: flex; gap: 6px;
+  padding: 5px 8px 6px;
+  background: var(--g100);
+  border-top: 1px solid var(--g200);
+  flex-shrink: 0;
+}
+.btn {
+  flex: 1; height: 28px;
+  border: none; border-radius: var(--r);
+  font-family: 'Barlow Condensed', Arial, sans-serif;
+  font-size: 11px; font-weight: 700;
+  cursor: pointer; letter-spacing: 0.3px;
+  transition: all .15s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.btn-p { background: var(--primary); color: white; }
+.btn-p:hover, .btn-p:active { background: #14304e; }
+.btn-r { background: white; color: var(--accent); border: 1.5px solid var(--accent); }
+.btn-r:hover, .btn-r:active { background: #fdf0ef; }
+
+#toast {
+  position: fixed; bottom: calc(20px + env(safe-area-inset-bottom)); left: 50%;
+  transform: translateX(-50%) translateY(50px);
+  background: #1a3a5c; color: white;
+  padding: 10px 20px; border-radius: 20px;
+  font-size: 12px; opacity: 0;
+  transition: all .25s; z-index: 9999;
+  white-space: nowrap; max-width: 90vw;
+  text-align: center; word-break: break-word;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ════════════════════════════════
+   PRINT — 1 seule page A4
+════════════════════════════════ */
+@media print {
+  html, body {
+    width: 210mm; height: 297mm;
+    margin: 0; padding: 0; background: white;
+    display: block;
+  }
+  .page {
+    width: 100%; height: 100%;
+    min-height: unset; box-shadow: none;
+    background: white;
+    display: flex; flex-direction: column;
+    page-break-after: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .form-body {
+    flex: 1; overflow: hidden;
+    padding: 6px 8px 4px !important;
+    gap: 5px !important;
+  }
+  /* Restaurer les grilles pour l'impression même si on est en vue mobile */
+  .cols2 { grid-template-columns: 1fr 1fr !important; }
+  .cols3 { grid-template-columns: 1fr 1fr 1fr !important; }
+  .g2 { grid-template-columns: 1fr 1fr !important; }
+  .g6 { grid-template-columns: repeat(6, 1fr) !important; }
+  .sig-row { grid-template-columns: 1fr 1fr !important; }
+  .side-col { display: grid; grid-template-columns: 1fr 1fr !important; gap: 5px; }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  input[type="tel"] { height: 24px !important; font-size: 10.5px !important; }
+  .sal-wrap { height: 24px !important; }
+  .opt { padding: 3px 6px !important; }
+  .opt-text .fr { font-size: 9.5px !important; }
+  .sec-body { padding: 5px 7px !important; }
+  canvas { height: 70px !important; max-height: 70px !important; }
+  .header { position: static !important; }
+  .footer, #toast, .sig-clr { display: none !important; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
+</style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-box">LOGO<br>SOCIÉTÉ</div>
+    <div class="hd-title">
+      <h2>Fiche d'Entrée Ouvrier Chantier</h2>
+      <h3>استمارة دخول عامل إلى الورش</h3>
+    </div>
+    <div class="hd-meta">
+      N° : <strong id="fiche-num">—</strong><br>
+      Date : <strong id="fiche-date">—</strong>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="form-body">
+
+    <!-- LIGNE 1 : Identité (gauche) + CNSS & Salaire (droite) -->
+    <div class="cols2">
+
+      <div class="sec">
+        <div class="sec-title">Identité <span class="ar">الهوية</span></div>
+        <div class="sec-body" style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+          <div class="field" style="grid-column:1/-1;">
+            <label>Nom &amp; Prénom <span class="ar">/ الاسم الكامل</span></label>
+            <input type="text" id="nom" required minlength="3" placeholder="Mohammed Alami" autocomplete="name">
+          </div>
+          <div class="field">
+            <label>CIN <span class="ar">/ رقم البطاقة</span></label>
+            <input type="text" id="cin" required pattern="[A-Za-z]{1,2}[0-9]{4,8}" placeholder="AB123456" autocomplete="off" inputmode="text">
+          </div>
+          <div class="field">
+            <label>Téléphone <span class="ar">/ الهاتف</span></label>
+            <input type="tel" id="tel" required pattern="[0-9+\s\-]{8,15}" placeholder="0612345678" autocomplete="tel" inputmode="tel">
+          </div>
+        </div>
+      </div>
+
+      <div class="side-col">
+        <div class="sec">
+          <div class="sec-title">CNSS <span class="ar">الضمان</span></div>
+          <div class="sec-body">
+            <div class="field">
+              <label>N° Affiliation <span class="ar">/ رقم</span></label>
+              <input type="text" id="cnss" pattern="[0-9]{7,12}" placeholder="1234567" inputmode="numeric">
+            </div>
+          </div>
+        </div>
+        <div class="sec">
+          <div class="sec-title">Salaire / jour <span class="ar">الأجر</span></div>
+          <div class="sec-body">
+            <div class="field">
+              <label>Montant <span class="ar">/ المبلغ</span></label>
+              <div class="sal-wrap">
+                <input type="number" id="salaire" min="0" max="99999" step="0.01" placeholder="0.00" inputmode="decimal">
+                <span class="sal-unit">MAD</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- LIGNE 2 : Chantier -->
+    <div class="sec">
+      <div class="sec-title">Chantier <span class="ar">الورش</span></div>
+      <div class="sec-body cols3">
+        <div class="field">
+          <label>Nom du chantier <span class="ar">/ اسم الورش</span></label>
+          <input type="text" id="chantier" required placeholder="Résidence Al Fath">
+        </div>
+        <div class="field">
+          <label>Localisation <span class="ar">/ الموقع</span></label>
+          <input type="text" id="local" required placeholder="Casablanca">
+        </div>
+        <div class="field">
+          <label>Chef de chantier <span class="ar">/ رئيس الورش</span></label>
+          <input type="text" id="chef" required placeholder="Hassan Benali">
+        </div>
+      </div>
+    </div>
+
+    <!-- LIGNE 3 : Poste + Date -->
+    <div class="cols2">
+      <div class="sec">
+        <div class="sec-title">Poste <span class="ar">الوظيفة</span></div>
+        <div class="sec-body">
+          <div class="opt-grid g2">
+            <label class="opt"><input type="radio" name="poste" value="macon"><span class="opt-text"><span class="fr">Maçon confirmé</span><span class="ar">بناء محترف</span></span></label>
+            <label class="opt"><input type="radio" name="poste" value="ouvrier"><span class="opt-text"><span class="fr">Ouvrier chantier</span><span class="ar">عامل ورش</span></span></label>
+            <label class="opt"><input type="radio" name="poste" value="electricien"><span class="opt-text"><span class="fr">Électricien</span><span class="ar">كهربائي</span></span></label>
+            <label class="opt"><input type="radio" name="poste" value="plombier"><span class="opt-text"><span class="fr">Plombier</span><span class="ar">سباك</span></span></label>
+            <label class="opt"><input type="radio" name="poste" value="carreleur"><span class="opt-text"><span class="fr">Carreleur</span><span class="ar">مبلط</span></span></label>
+            <label class="opt"><input type="radio" name="poste" value="peintre"><span class="opt-text"><span class="fr">Peintre</span><span class="ar">دهان</span></span></label>
+          </div>
+        </div>
+      </div>
+      <div class="sec">
+        <div class="sec-title">Date d'entrée <span class="ar">تاريخ الدخول</span></div>
+        <div class="sec-body">
+          <div class="field">
+            <label>Date <span class="ar">/ التاريخ</span></label>
+            <input type="date" id="date-entree" required>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIGNE 4 : Sécurité -->
+    <div class="sec">
+      <div class="sec-title">Équipements de sécurité remis <span class="ar">معدات السلامة المسلمة</span></div>
+      <div class="sec-body">
+        <div class="opt-grid g6">
+          <label class="opt"><input type="checkbox" name="secu" value="casque"><span class="opt-text"><span class="fr">Casque</span><span class="ar">خوذة</span></span></label>
+          <label class="opt"><input type="checkbox" name="secu" value="chaussures"><span class="opt-text"><span class="fr">Chaussures</span><span class="ar">أحذية</span></span></label>
+          <label class="opt"><input type="checkbox" name="secu" value="gants"><span class="opt-text"><span class="fr">Gants</span><span class="ar">قفازات</span></span></label>
+          <label class="opt"><input type="checkbox" name="secu" value="gilet"><span class="opt-text"><span class="fr">Gilet</span><span class="ar">سترة</span></span></label>
+          <label class="opt"><input type="checkbox" name="secu" value="lunettes"><span class="opt-text"><span class="fr">Lunettes</span><span class="ar">نظارات</span></span></label>
+          <label class="opt"><input type="checkbox" name="secu" value="harnais"><span class="opt-text"><span class="fr">Harnais</span><span class="ar">حزام</span></span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIGNE 5 : Signatures -->
+    <div class="sec">
+      <div class="sec-title">Signatures <span class="ar">التوقيعات</span></div>
+      <div class="sec-body">
+        <div class="sig-row">
+          <div class="sig-box">
+            <div class="sig-hd">
+              <div class="sig-lbl">Signature de l'ouvrier <span class="ar">توقيع العامل</span></div>
+              <button class="sig-clr" onclick="clearCanvas('sig1')">Effacer</button>
+            </div>
+            <canvas id="sig1"></canvas>
+          </div>
+          <div class="sig-box">
+            <div class="sig-hd">
+              <div class="sig-lbl">Chef de chantier <span class="ar">توقيع رئيس الورش</span></div>
+              <button class="sig-clr" onclick="clearCanvas('sig2')">Effacer</button>
+            </div>
+            <canvas id="sig2"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /form-body -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <button class="btn btn-r" onclick="resetForm()">Réinitialiser / مسح</button>
+    <button class="btn btn-p" onclick="validateAndPrint()">🖨 Imprimer / PDF</button>
+  </div>
+
+</div>
+
+<script>
+/* Auto date & N° */
+(function(){
+  const now=new Date(), p=n=>String(n).padStart(2,'0');
+  document.getElementById('fiche-date').textContent=p(now.getDate())+'/'+p(now.getMonth()+1)+'/'+now.getFullYear();
+  document.getElementById('fiche-num').textContent='F-'+now.getFullYear()+'-'+String(Math.floor(Math.random()*9000)+1000);
+  document.getElementById('date-entree').value=now.getFullYear()+'-'+p(now.getMonth()+1)+'-'+p(now.getDate());
+})();
+
+/* Canvas signature — compatible iOS Safari & Android */
+function initCanvas(id){
+  const cv=document.getElementById(id);
+  const cx=cv.getContext('2d');
+  let drawing=false, lastX=0, lastY=0;
+
+  function sync(){
+    const r=cv.getBoundingClientRect();
+    const dpr=window.devicePixelRatio||1;
+    /* Sauvegarder avant resize */
+    let snap=null;
+    try{ if(cv.width>0&&cv.height>0) snap=cx.getImageData(0,0,cv.width,cv.height); }catch(e){}
+    cv.width=Math.round(r.width*dpr);
+    cv.height=Math.round(r.height*dpr);
+    cx.setTransform(1,0,0,1,0,0);
+    cx.scale(dpr,dpr);
+    cx.strokeStyle='#1a3a5c';
+    cx.lineWidth=2;
+    cx.lineCap='round';
+    cx.lineJoin='round';
+    if(snap) try{ cx.putImageData(snap,0,0); }catch(e){}
+  }
+
+  /* Init après layout */
+  requestAnimationFrame(()=>{ sync(); });
+  window.addEventListener('resize',()=>requestAnimationFrame(sync));
+
+  function getXY(e){
+    const r=cv.getBoundingClientRect();
+    if(e.touches&&e.touches.length>0){
+      return{ x:e.touches[0].clientX-r.left, y:e.touches[0].clientY-r.top };
+    }
+    return{ x:e.clientX-r.left, y:e.clientY-r.top };
+  }
+
+  /* Mouse */
+  cv.addEventListener('mousedown',e=>{ e.preventDefault(); drawing=true; const p=getXY(e); cx.beginPath(); cx.moveTo(p.x,p.y); lastX=p.x; lastY=p.y; });
+  cv.addEventListener('mousemove',e=>{ if(!drawing)return; e.preventDefault(); const p=getXY(e); cx.lineTo(p.x,p.y); cx.stroke(); lastX=p.x; lastY=p.y; });
+  cv.addEventListener('mouseup',()=>drawing=false);
+  cv.addEventListener('mouseleave',()=>drawing=false);
+
+  /* Touch — iOS Safari fix */
+  cv.addEventListener('touchstart',e=>{
+    e.preventDefault();
+    drawing=true;
+    const p=getXY(e);
+    cx.beginPath(); cx.moveTo(p.x,p.y);
+    lastX=p.x; lastY=p.y;
+  },{passive:false});
+
+  cv.addEventListener('touchmove',e=>{
+    if(!drawing)return;
+    e.preventDefault();
+    const p=getXY(e);
+    cx.lineTo(p.x,p.y); cx.stroke();
+    lastX=p.x; lastY=p.y;
+  },{passive:false});
+
+  cv.addEventListener('touchend',e=>{ e.preventDefault(); drawing=false; },{passive:false});
+  cv.addEventListener('touchcancel',()=>drawing=false);
+}
+
+function clearCanvas(id){
+  const c=document.getElementById(id);
+  c.getContext('2d').clearRect(0,0,c.width,c.height);
+}
+
+initCanvas('sig1');
+initCanvas('sig2');
+
+/* Validation */
+document.querySelectorAll('input[required]').forEach(i=>i.addEventListener('blur',()=>i.classList.add('touched')));
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+function validateAndPrint(){
+  let ok=true;
+  document.querySelectorAll('input[required]').forEach(i=>{ i.classList.add('touched'); if(!i.checkValidity()) ok=false; });
+  if(!ok){ toast('Corriger les champs obligatoires avant d\'imprimer.'); return; }
+  window.print();
+}
+
+function resetForm(){
+  if(!confirm('Réinitialiser tous les champs ?')) return;
+  document.querySelectorAll('input[type="text"],input[type="number"],input[type="tel"]').forEach(i=>i.value='');
+  document.querySelectorAll('input[type="radio"],input[type="checkbox"]').forEach(i=>i.checked=false);
+  document.querySelectorAll('input.touched').forEach(i=>i.classList.remove('touched'));
+  clearCanvas('sig1'); clearCanvas('sig2');
+  const now=new Date(), p=n=>String(n).padStart(2,'0');
+  document.getElementById('date-entree').value=now.getFullYear()+'-'+p(now.getMonth()+1)+'-'+p(now.getDate());
+  toast('Formulaire réinitialisé.');
+}
+</script>
+</body>
+</html>
